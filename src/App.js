@@ -1,17 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
 import {Link} from "react-router-dom";
-//import * as Sentry from "@sentry/react";
+import * as Sentry from "@sentry/react";
 
 function App() {
   const getData = () => {
-    //const trx = Sentry.startTransaction({name: 'fetch'});
-    //Sentry.getCurrentHub().configureScope(scope => scope.setSpan(trx));
-
-    fetch("https://localhost:7095/WeatherForecast")
+    const transaction = Sentry.startTransaction({name: 'fetch-test-data'});
+    // Sentry.getCurrentHub().configureScope(scope => scope.setSpan(trx));
+    fetch("https://catfact.ninja/fact")
       .then(res => res.json())
       .then(json => console.log(json));
       //.finally(() => trx.finish());
+    transaction.finish();
+    throw("new error oh no")
   }
 
   return (
