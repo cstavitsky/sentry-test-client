@@ -6,13 +6,11 @@ import * as Sentry from "@sentry/react";
 function App() {
   const getData = () => {
     const transaction = Sentry.startTransaction({name: 'fetch-test-data'});
-    // Sentry.getCurrentHub().configureScope(scope => scope.setSpan(trx));
-    fetch("https://catfact.ninja/fact")
-      .then(res => res.json())
-      .then(json => console.log(json));
-      //.finally(() => trx.finish());
+
+    fetch("http://localhost:8080/success")
+      .then(res => console.log(res));
+      
     transaction.finish();
-    throw("new error oh no")
   }
 
   return (

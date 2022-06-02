@@ -15,20 +15,11 @@ import {
   Route,
 } from "react-router-dom";
 
-const tracingOrigins = ['localhost', /^\//];
+// const tracingOrigins = ['localhost', 'catfact.ninja', /^\//];
 
 Sentry.init({
   dsn: "https://948f22f6880a47bb8c91ed47b0da1a1e@o87286.ingest.sentry.io/6463355", //chris-react-native
-  integrations: [new BrowserTracing({
-    tracingOrigins: tracingOrigins,
-    routingInstrumentation: Sentry.reactRouterV6Instrumentation(
-      React.useEffect,
-      useLocation,
-      useNavigationType,
-      createRoutesFromChildren,
-      matchRoutes
-    )
-  })],
+  integrations: [new BrowserTracing()],
   debug: true,
   tracesSampleRate: 1.0,
 });
@@ -36,9 +27,8 @@ Sentry.init({
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-fetch("https://catfact.ninja/fact")
-      .then(res => res.json())
-      .then(json => console.log(json));
+fetch("http://localhost:8080/success")
+      .then(res => console.log(res));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
